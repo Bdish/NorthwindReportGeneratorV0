@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NorthwindReportGenerator", "NorthwindReportGenerator\NorthwindReportGenerator.csproj", "{654DBB7D-5121-40E7-8F4A-E4187FA0F53C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{654DBB7D-5121-40E7-8F4A-E4187FA0F53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{654DBB7D-5121-40E7-8F4A-E4187FA0F53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{654DBB7D-5121-40E7-8F4A-E4187FA0F53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{654DBB7D-5121-40E7-8F4A-E4187FA0F53C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {703C9A8C-5643-4878-87EC-5D4907240781}
+	EndGlobalSection
+EndGlobal
