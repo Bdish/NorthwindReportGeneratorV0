@@ -7,16 +7,10 @@ namespace BLL
 {
     public class MessageManager
     {
-
-      /*  public MessageManager()
-        {
-
-        }*/
-
-        public void SendMsgWithFile(string email,string subject,string textBody ,Attachment attachment)
+        public void SendMsgWithFile(string email, string subject, string textBody, Attachment attachment)
         {
             SmtpClient client = new SmtpClient(GlobalSettingMessage.Host, GlobalSettingMessage.Port);
-            client.EnableSsl = GlobalSettingMessage.EnableSsl; 
+            client.EnableSsl = GlobalSettingMessage.EnableSsl;
             client.Timeout = GlobalSettingMessage.Timeout;
             client.DeliveryMethod = GlobalSettingMessage.DeliveryMethod;
             client.UseDefaultCredentials = GlobalSettingMessage.UseDefaultCredentials;

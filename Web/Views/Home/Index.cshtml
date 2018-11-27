@@ -1,0 +1,130 @@
+﻿@model List<Web.Models.SalesReportUnit>
+
+<html>
+<head>
+    <title>ViewBag.Title</title>
+    <script src="~/node_modules/jquery/dist/jquery.js" language="javascript" type="text/javascript"></script>
+    <script src="~/node_modules/jquery-ui_1.12/jquery-ui.min.js" language="javascript" type="text/javascript"></script>
+    <link href='@Url.Content("~/node_modules/jquery-ui_1.12/jquery-ui.min.css")' rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $(function () {
+            $('#startDate').datepicker();
+            $('#endDate').datepicker();
+        });
+    </script>
+</head>
+<body>
+
+
+    <div style="border: 1px solid red; text-align: left; width: 20%; padding-left: 20px;">
+        @ViewBag.Error
+    </div>
+
+    Создание отчёта по продажам
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+
+        <label for="date">от: </label><input id="startDate" name="startDate" />
+        <label for="date">до(включительно) : </label><input id="endDate" name="endDate" />
+        <input type="submit" value="Создать отчет">
+    }
+
+    <br />
+    <br />
+    Отправить отчет в формате .csv на электронную почту
+
+    <label for="email">Email: </label><input id="email" name="email" />
+    <input type="button" value="Отправить на email" onclick="GetReport();">
+    <br />
+    <br />
+    <h2>
+        Report
+    </h2>
+    <table style="background-color: white; width: 100%;" id="report">
+        <thead>
+            <tr>
+                <th style="border: 2px solid black; text-align: left; width: 20%; padding-left: 20px;">
+                    Номер заказа
+                </th>
+                <th style="border: 2px solid black; text-align: center; width: 20%">
+                    Дата заказа
+                </th>
+                <th style="border: 2px solid black; text-align: center; width: 20%">
+                    Артикул товара
+                </th>
+                <th style="border: 2px solid black; text-align: center; width: 20%">
+                    Название товара
+                </th>
+                <th style="border: 2px solid black; text-align: center; width: 20%">
+                    Количество реализованных единиц товара
+                </th>
+                <th style="border: 2px solid black; text-align: center; width: 20%">
+                    Цена реализации за единицу продукции
+                </th>
+            </tr>
+        </thead>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td style="border: 1px solid black; text-align: left; width: 20%; padding-left: 20px;">
+                        @item.OrderId
+                    </td>
+                    <td style="border: 2px solid black; text-align: center; width: 20%">
+                        @item.OrderDate
+                    </td>
+                    <td style="border: 2px solid black; text-align: center; width: 20%">
+                        @item.MarkingOfProduct
+                    </td>
+                    <td style="border: 2px solid black; text-align: center; width: 20%">
+                        @item.NameProduct
+                    </td>
+                    <td style="border: 2px solid black; text-align: center; width: 20%">
+                        @item.UnitsOnOrder
+                    </td>
+                    <td style="border: 2px solid black; text-align: center; width: 20%">
+                        @item.UnitPrice
+                    </td>
+                </tr>
+            }
+        }
+
+    </table>
+</body>
+</html>
+<script type="text/javascript">
+
+    var Report = [];
+
+    function GetReport() {
+
+         $.ajax({
+                    url: '@Url.Action("SendMsgWithReport", "Home")',
+             data: { startAndEndDateAndEmail: JSON.stringify(SetStartAndEndDateAndEmail()) },
+                    type: 'POST',
+                    success: function (message) {
+
+
+                        alert(message);
+                    },
+                    error: function () {
+                        alert('ошибка');
+                    }
+                });
+    }
+
+
+    function SetStartAndEndDateAndEmail() {
+
+        var jsonStartAndEndDateAndEmail =
+        {
+            StartDate: document.getElementById("startDate").value,
+            EndDate: document.getElementById("endDate").value,
+            Email: document.getElementById("email").value
+        }
+        return jsonStartAndEndDateAndEmail;
+    }
+
+
+</script>
