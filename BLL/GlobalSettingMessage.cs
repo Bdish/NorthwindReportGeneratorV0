@@ -19,8 +19,8 @@ namespace BLL
 
         public static bool UseDefaultCredentials { get; set; } = false;
 
-        public static string UserName { get; set; } = "pitpitermail@gmail.com";
+        public static string UserName { get; set; } = "**************@gmail.com";
 
-        public static string Password { get; set; } = "_Q1w2e3r4t5y6";
+        public static string Password { get; set; } = "**************";
     }
 }
