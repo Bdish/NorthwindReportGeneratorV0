@@ -8,6 +8,7 @@ using BLL;
 using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using OfficeOpenXml;
 using Web.Models;
 using Excel = Microsoft.Office.Interop.Excel;
 
@@ -78,45 +79,28 @@ namespace Web.Controllers
                 {
                     List<SalesReportUnit> report = Report((DateTime)startAndEndDateAndEmailView.StartDate, (DateTime)startAndEndDateAndEmailView.EndDate);
                     MessageManager msg = new MessageManager();
-                    /* using (var stream = new MemoryStream())
-                     using (var writer = new StreamWriter(stream))
-                     {
+                    
+                    using (var stream = new System.IO.MemoryStream())
+                        using (ExcelPackage package = new ExcelPackage(stream))
+                        {
+                            ExcelWorksheet workSheet = package.Workbook.Worksheets.Add("Subscribers");
+                           
+                        for (int i = 2, j = 0; j < report.Count ; i++, j++)
+                             {
+                                 workSheet.Cells[i, 1].Value = report[j].OrderId.ToString();
+                                 workSheet.Cells[i, 2].Value = report[j].OrderDate.ToString();
+                                 workSheet.Cells[i, 3].Value = report[j].MarkingOfProduct;
+                                 workSheet.Cells[i, 4].Value = report[j].NameProduct;
+                                 workSheet.Cells[i, 5].Value = report[j].UnitsOnOrder.ToString();
+                                 workSheet.Cells[i, 6].Value = report[j].UnitPrice.ToString();
+                                 workSheet.Cells[i, 7].Formula = $"= E{i}*F{i}";
+                             }
+                        package.Save();
+                        stream.Position = 0;
+                        msg.SendMsgWithFile(startAndEndDateAndEmailView.Email, "Отчёт по продажам", "Отчёт по продажам", new Attachment(stream, "Reports.xlsx", "text/xlsx"));
+                        return "The message is sent.";
 
-                         StringBuilder reportToFile = new StringBuilder();
-
-                         for (int i = 0; i < report.Count; i++)
-                         {
-                             reportToFile.Append(report[i].OrderId.ToString() + " ; "
-                                 + report[i].OrderDate.ToString() + " ; " + report[i].MarkingOfProduct + " ; "
-                                 + report[i].NameProduct + " ; " + report[i].UnitsOnOrder.ToString() + " ; "
-                                 + report[i].UnitPrice.ToString() + $" ;=E{i + 1}*F{i + 1}\n");
-                         }
-                         writer.WriteLine(reportToFile);
-                         writer.Flush();
-                         stream.Position = 0;
-                         msg.SendMsgWithFile(startAndEndDateAndEmailView.Email, "Отчёт по продажам", "Отчёт по продажам", new Attachment(stream, "filename.csv", "text/csv"));
-                         return "The message is sent.";
-                     }*/
-                    // Создаём экземпляр нашего приложения
-                    Excel.Application excelApp = new Excel.Application();
-                    // Создаём экземпляр рабочий книги Excel
-                    Excel.Workbook workBook;
-                    // Создаём экземпляр листа Excel
-                    Excel.Worksheet workSheet;
-
-                    workBook = excelApp.Workbooks.Add();
-                    workSheet = (Excel.Worksheet)workBook.Worksheets.get_Item(1);
-                  
-                    for (int i = 1,j = 0; i < report.Count + 1; i++,j++)
-                    {                        
-                        workSheet.Cells[i, 1] = report[j].OrderId.ToString();
-                        workSheet.Cells[i, 2] = report[j].OrderDate.ToString();
-                        workSheet.Cells[i, 3] = report[j].MarkingOfProduct;
-                        workSheet.Cells[i, 4] = report[j].NameProduct;
-                        workSheet.Cells[i, 5] = report[j].UnitsOnOrder.ToString();
-                        workSheet.Cells[i, 6] = $"= E{i}*F{i}";
                     }
-                    excelApp.
                 }
                 catch (Exception ex)
                 {
